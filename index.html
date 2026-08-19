@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scope — Screen recording for Mac</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #FAFAF8;
+    --bg-raised: #F1EFE9;
+    --ink: #17181A;
+    --ink-soft: #6B6D70;
+    --line: #E7E5E0;
+    --red: #E24B3C;
+    --red-soft: rgba(226,75,60,0.1);
+    --gold: #C9972E;
+    --radius: 10px;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;
+  }
+
+  h1,h2,h3{ font-family:'Space Grotesk', sans-serif; letter-spacing:-0.02em; }
+
+  .mono{ font-family:'JetBrains Mono', monospace; }
+
+  a{ color:inherit; text-decoration:none; }
+
+  .wrap{ max-width:1040px; margin:0 auto; padding:0 32px; }
+
+  @media (max-width:640px){ .wrap{ padding:0 20px; } }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:10;
+    background:rgba(250,250,248,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{
+    height:64px; display:flex; align-items:center; justify-content:space-between;
+  }
+  .brand{ display:flex; align-items:center; gap:9px; font-weight:600; font-size:17px; }
+  .brand .dot{
+    width:9px; height:9px; border-radius:50%; background:var(--red);
+    box-shadow:0 0 0 3px var(--red-soft);
+  }
+  .nav-links{ display:flex; align-items:center; gap:28px; font-size:14px; color:var(--ink-soft); }
+  .nav-links a:hover{ color:var(--ink); }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:10px 18px; border-radius:8px; font-size:14px; font-weight:500;
+    border:1px solid transparent; cursor:pointer; transition:all .15s ease;
+  }
+  .btn-primary{ background:var(--ink); color:var(--bg); }
+  .btn-primary:hover{ background:#000; transform:translateY(-1px); }
+  .btn-ghost{ border-color:var(--line); color:var(--ink); }
+  .btn-ghost:hover{ border-color:var(--ink); }
+
+  /* ---------- HERO ---------- */
+  header.hero{ padding:96px 0 64px; border-bottom:1px solid var(--line); }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono', monospace; font-size:12px; letter-spacing:0.06em;
+    color:var(--ink-soft); text-transform:uppercase;
+    border:1px solid var(--line); padding:6px 12px; border-radius:20px;
+    margin-bottom:24px;
+  }
+  .hero h1{
+    font-size:clamp(40px, 6vw, 68px); font-weight:600; line-height:1.03; max-width:760px;
+  }
+  .hero p.lede{
+    margin-top:22px; font-size:18px; color:var(--ink-soft); max-width:480px;
+  }
+  .hero-actions{ display:flex; align-items:center; gap:16px; margin-top:36px; flex-wrap:wrap; }
+  .btn-lg{ padding:13px 22px; font-size:15px; border-radius:9px; }
+  .req{ font-size:13px; color:var(--ink-soft); }
+
+  /* signature: rec indicator */
+  .rec-strip{
+    margin-top:56px; display:inline-flex; align-items:center; gap:12px;
+    background:var(--bg-raised); border:1px solid var(--line);
+    padding:12px 18px; border-radius:9px;
+  }
+  .rec-dot{
+    width:10px; height:10px; border-radius:50%; background:var(--red);
+    animation:pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{ box-shadow:0 0 0 0 rgba(226,75,60,0.45); }
+    50%{ box-shadow:0 0 0 6px rgba(226,75,60,0); }
+  }
+  .rec-label{ font-size:12px; letter-spacing:0.08em; color:var(--ink-soft); text-transform:uppercase; }
+  .rec-time{ font-size:14px; font-weight:500; }
+  .rec-meta{ font-size:12px; color:var(--ink-soft); border-left:1px solid var(--line); padding-left:12px; }
+
+  @media (prefers-reduced-motion: reduce){
+    .rec-dot{ animation:none; }
+  }
+
+  /* ---------- MOCKUP ---------- */
+  section.showcase{ padding:72px 0; border-bottom:1px solid var(--line); }
+  .menubar-mock{
+    max-width:620px; margin:0 auto; border:1px solid var(--line); border-radius:14px;
+    overflow:hidden; background:#fff; box-shadow:0 24px 60px -30px rgba(0,0,0,0.25);
+  }
+  .mb-top{
+    height:30px; background:#F4F3F0; border-bottom:1px solid var(--line);
+    display:flex; align-items:center; padding:0 12px; gap:8px;
+  }
+  .mb-top .traffic{ width:9px; height:9px; border-radius:50%; }
+  .mb-body{ padding:26px 24px; }
+  .mb-menu-row{ display:flex; align-items:center; justify-content:flex-end; gap:16px; padding:6px 0 18px; border-bottom:1px dashed var(--line); margin-bottom:18px; font-size:12px; color:var(--ink-soft); }
+  .mb-menu-row .active{ display:flex; align-items:center; gap:6px; color:var(--ink); font-weight:500; }
+  .mb-dropdown{ font-size:14px; }
+  .mb-dropdown .item{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:10px 4px; border-radius:6px;
+  }
+  .mb-dropdown .item.sel{ background:var(--red-soft); color:var(--red); font-weight:500; }
+  .mb-dropdown .item .k{ font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--ink-soft); }
+  .mb-dropdown .item.sel .k{ color:var(--red); opacity:0.8; }
+
+  /* ---------- FEATURES ---------- */
+  section.features{ padding:72px 0; border-bottom:1px solid var(--line); }
+  .section-head{ max-width:520px; margin-bottom:48px; }
+  .section-head .eyebrow{ margin-bottom:16px; }
+  .section-head h2{ font-size:32px; font-weight:600; }
+  .feat-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  @media (max-width:760px){ .feat-grid{ grid-template-columns:1fr; } }
+  .feat{ background:var(--bg); padding:28px; }
+  .feat .tag{ font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--red); text-transform:uppercase; letter-spacing:0.06em; }
+  .feat h3{ font-size:17px; font-weight:600; margin:10px 0 8px; }
+  .feat p{ font-size:14px; color:var(--ink-soft); }
+
+  /* ---------- DONATE ---------- */
+  section.donate{ padding:80px 0; border-bottom:1px solid var(--line); }
+  .donate-box{
+    background:var(--ink); color:var(--bg); border-radius:16px;
+    padding:52px 44px; display:flex; align-items:center; justify-content:space-between; gap:40px;
+  }
+  @media (max-width:720px){ .donate-box{ flex-direction:column; align-items:flex-start; text-align:left; } }
+  .donate-box h2{ font-size:26px; font-weight:600; max-width:380px; }
+  .donate-box p{ font-size:14px; color:#B9BAB8; margin-top:12px; max-width:380px; }
+  .btn-coffee{
+    background:var(--gold); color:#20180A; font-weight:600; padding:13px 22px;
+    border-radius:9px; font-size:15px; white-space:nowrap; display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn-coffee:hover{ filter:brightness(1.06); }
+
+  /* ---------- FOOTER ---------- */
+  footer{ padding:36px 0; }
+  footer .wrap{ display:flex; align-items:center; justify-content:space-between; font-size:13px; color:var(--ink-soft); flex-wrap:wrap; gap:12px; }
+  footer a:hover{ color:var(--ink); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span>Scope</div>
+    <div class="nav-links">
+      <a href="#showcase">How it looks</a>
+      <a href="#features">Features</a>
+      <a href="https://buymeacoffee.com/lorencelaudenio" target="_blank" rel="noopener">Support</a>
+      <a href="https://github.com/lorencelaudenio" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn btn-primary" href="#download">Download for Mac</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Built for macOS</div>
+    <h1>Record your screen.<br>Nothing else.</h1>
+    <p class="lede">Scope lives in your menu bar and stays out of the way — no watermarks, no upload prompts, no clutter. Press record, do the thing, get a clean file. Built and tested on macOS Monterey — not verified on newer versions.</p>
+    <div class="hero-actions">
+      <a id="download" class="btn btn-primary btn-lg" href="#">Download for Mac — Free</a>
+      <a class="btn btn-ghost btn-lg" href="https://github.com/lorencelaudenio" target="_blank" rel="noopener">View on GitHub ↗</a>
+      <span class="req">Built and tested on macOS Monterey</span>
+    </div>
+
+    <div class="rec-strip">
+      <span class="rec-dot"></span>
+      <span class="rec-label">Recording</span>
+      <span class="rec-time mono" id="recTime">00:00:00</span>
+      <span class="rec-meta mono">1280×720 · H.264</span>
+    </div>
+  </div>
+</header>
+
+<section class="showcase" id="showcase">
+  <div class="wrap">
+    <div class="menubar-mock">
+      <div class="mb-top">
+        <span class="traffic" style="background:#ED6A5E;"></span>
+        <span class="traffic" style="background:#F4BF4F;"></span>
+        <span class="traffic" style="background:#61C454;"></span>
+      </div>
+      <div class="mb-body">
+        <div class="mb-menu-row">
+          <span>Wi-Fi</span><span>4:12 PM</span>
+          <span class="active"><span class="dot" style="width:7px;height:7px;border-radius:50%;background:var(--red);"></span>Scope</span>
+        </div>
+        <div class="mb-dropdown">
+          <div class="item sel"><span>Choose Display</span><span class="k">⌘⇧2</span></div>
+          <div class="item"><span>Follow Mouse Zoom</span><span class="k">On</span></div>
+          <div class="item"><span>Floating Camera</span><span class="k">On</span></div>
+          <div class="item"><span>Microphone</span><span class="k">Built-in</span></div>
+          <div class="item"><span>Output</span><span class="k">1280×720 · MP4</span></div>
+          <div class="item"><span>Save To</span><span class="k">Desktop</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features" id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Why Scope</div>
+      <h2>A recorder that gets out of your way</h2>
+    </div>
+    <div class="feat-grid">
+      <div class="feat">
+        <div class="tag">Capture</div>
+        <h3>Pick which screen to record</h3>
+        <p>Running dual monitors? Choose exactly which display to capture before you start — no mixing up screens.</p>
+      </div>
+      <div class="feat">
+        <div class="tag">Storage</div>
+        <h3>1280×720, H.264</h3>
+        <p>Encoded to keep files small without looking compressed — recordings don't quietly eat your disk.</p>
+      </div>
+      <div class="feat">
+        <div class="tag">Output</div>
+        <h3>Auto-saved to your Desktop</h3>
+        <p>Every recording lands as an MP4 on your Desktop the moment you stop — no export step, no save dialog.</p>
+      </div>
+      <div class="feat">
+        <div class="tag">Focus</div>
+        <h3>Mouse-follow zoom</h3>
+        <p>The recording smoothly zooms and pans to follow your cursor, so viewers' eyes go where yours do.</p>
+      </div>
+      <div class="feat">
+        <div class="tag">Camera</div>
+        <h3>Floating camera that zooms on hover</h3>
+        <p>Your webcam bubble sits over the screen and zooms in when you hover it — press <span class="k" style="color:var(--red);">Esc</span> to snap back to normal.</p>
+      </div>
+      <div class="feat">
+        <div class="tag">Audio</div>
+        <h3>Choose your mic</h3>
+        <p>Record with your Mac's built-in mic or switch to any external one you've got plugged in.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="donate" id="donate">
+  <div class="wrap">
+    <div class="donate-box">
+      <div>
+        <h2>Scope is free. Coffee is just appreciated.</h2>
+        <p>This is a side project I built and tested on my own Mac, currently running Monterey. I maintain it when I can, but I can't promise ongoing updates or support for newer macOS versions I don't have access to. If it's useful to you as-is, a coffee is a nice way to say thanks.</p>
+      </div>
+      <a class="btn-coffee" href="https://buymeacoffee.com/lorencelaudenio" target="_blank" rel="noopener">☕ Buy me a coffee</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Scope for Mac</span>
+    <span><a href="https://github.com/lorencelaudenio" target="_blank" rel="noopener">GitHub</a> · <a href="#">Release notes</a> · <a href="#">Privacy</a> · <a href="mailto:hello@example.com">hello@example.com</a></span>
+  </div>
+</footer>
+
+<script>
+  // Signature hero element: a live-looking recording timer
+  let seconds = 0;
+  const el = document.getElementById('recTime');
+  function fmt(s){
+    const h = String(Math.floor(s/3600)).padStart(2,'0');
+    const m = String(Math.floor((s%3600)/60)).padStart(2,'0');
+    const sec = String(s%60).padStart(2,'0');
+    return `${h}:${m}:${sec}`;
+  }
+  setInterval(() => {
+    seconds++;
+    el.textContent = fmt(seconds);
+  }, 1000);
+</script>
+
+</body>
+</html>
