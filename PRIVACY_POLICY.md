@@ -28,7 +28,7 @@ Because Scope does not collect or transmit data, we do not share any data with t
 
 ## 5. Third-Party Services
 
-Scope does not integrate third-party SDKs, cloud storage services, or external APIs. [Update this section if you add features like cloud upload, auto-update checks, or crash reporting in the future.]
+Scope does not integrate third-party SDKs, cloud storage services, or external APIs. 
 
 ## 6. Your Control Over Data
 
@@ -46,4 +46,4 @@ We may update this Privacy Policy from time to time. Changes will be reflected i
 
 If you have questions about this Privacy Policy, contact us at:
 
-[YOUR CONTACT EMAIL]
+laudeniolorence@icloud.com
